@@ -1,33 +1,24 @@
 package com.tododev.deserializer.jackson.interfaces.subtypeclass;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import static org.junit.Assert.*;
 
 public class AppTest
 {
-    // TODO check if Subclass and Default Typing are the same if AS_WRAPPER is used instead of Property
     private final static Logger log = LoggerFactory.getLogger(AppTest.class);
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
     private static String JSON_LIST_FILES_CLASSID = "{\"class\":\"com.tododev.deserializer.jackson.interfaces.subtypeclass.FileListSecure\",\"files\":[\"C:\\\\\"]}";
-    // {"class":"com.tododev.deserializer.jackson.interfaces.subtypeclass.FileListSecure","files":["C:\\"]}
 
     public final static String JSON_SYSUTIL_DEF_TYP = "{\"fileList\":[\"com.tododev.deserializer.jackson.interfaces.subtypeclass.FileListSecure\",{\"files\":[\"java.util.ArrayList\",[\"C:\\\\\"]]}]}";
-    // {"fileList":["com.tododev.deserializer.jackson.interfaces.subtypeclass.FileListSecure",{"files":["java.util.ArrayList",["C:\\"]]}]}
 
     private static String JSON_SYSUTIL_CLASSID = "{\"fileList\":{\"class\":\"com.tododev.deserializer.jackson.interfaces.subtypeclass.FileListSecure\",\"files\":[\"C:\\\\\"]}}";
-    // {"fileList":{"class":"com.tododev.deserializer.jackson.interfaces.subtypeclass.FileListSecure","files":["C:\\"]}}
 
     @Test(expected = InvalidTypeIdException.class)
     public void deserializeInsecure () throws IOException
@@ -73,10 +64,6 @@ public class AppTest
 
     @Test
     public void deserializeSysUtilsClassId() throws IOException{
-        //FileList fileList = objectMapper.readValue(JSON_LIST_FILES_CLASSID, FileList.class);
-        //SysUtils utils = new SysUtils();
-        //utils.setFileList(fileList);
-        //log.warn(objectMapper.writeValueAsString(utils));
         SysUtils utils = objectMapper.readValue(JSON_SYSUTIL_CLASSID, SysUtils.class);
         assertNotNull(utils);
         assertTrue(utils.getFileList() instanceof FileListSecure);

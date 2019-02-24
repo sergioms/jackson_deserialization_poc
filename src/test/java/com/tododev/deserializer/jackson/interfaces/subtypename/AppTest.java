@@ -1,17 +1,12 @@
 package com.tododev.deserializer.jackson.interfaces.subtypename;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -21,13 +16,10 @@ public class AppTest
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
     private static String JSON_LIST_FILES_NAME = "{\"name\":\"secure\",\"files\":[\"C:\\\\\"]}";
-    // {"name":"secure","files":["C:\\"]}
 
     public final static String JSON_SYSUTIL_DEF_TYP_NAME = "{\"fileList\":[\"secure\",{\"files\":[\"java.util.ArrayList\",[\"C:\\\\\"]]}]}";
-    // {"fileList":["secure",{"files":["java.util.ArrayList",["C:\\"]]}]}
 
     private static String JSON_SYSUTIL_NAME = "{\"fileList\":{\"name\":\"secure\",\"files\":[\"C:\\\\\"]}}";
-    // {"fileList":{"name":"secure","files":["C:\\"]}}
 
     @Test(expected = InvalidTypeIdException.class)
     public void deserializeInsecure () throws IOException
